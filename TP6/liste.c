@@ -4,8 +4,8 @@
 #include <locale.h>
 #include "liste.h"
 
-// #define VERSION 3.0
-// #define SQUELET
+#define VERSION 3.0
+#define SQUELET
 
 
 // crée une nouvelle liste chaine unilataire vide et renvoie un pointeur sur cette liste
@@ -78,8 +78,9 @@ int InsertElementAt(LinkedList *Liste, int i, Enregistrement pers) {
 		if (Liste->size == 0) { // insertion en tête de l'unique élément
 			NewElement = NewLinkedListElement(pers);
 			if (NewElement != NULL) {
-				Liste->head = NewElement;
-				Liste->size = 1;
+				NewElement->next = Liste->head;  //l'élément pointe vers la queue
+				Liste->head = NewElement; //l'élément se place à la tête
+				Liste->size++; //on augmente la taille
 		}
 			else {
 				return(0);
@@ -88,8 +89,9 @@ int InsertElementAt(LinkedList *Liste, int i, Enregistrement pers) {
 		if (Liste->size <= i) { // insertion en queue
 			NewElement = NewLinkedListElement(pers);
 			if (NewElement != NULL) {
+				Liste->tail->next = NewElement; //la queue pointe vers l'élément
 				Liste->tail = NewElement;
-				Liste->size = Liste->size + 1;
+				Liste->size ++;
 			}
 			else {
 				return(0);
@@ -141,7 +143,7 @@ int DeleteLinkedListElem(LinkedList * list, SingleLinkedListElem * item) {
 		return(1);
 	}
 
-	if((previous != NULL) && (tmp == item) && (tmp->next != NULL)) { // s'il est au milieu, on supprime l'élémentif
+	if((previous != NULL) && (tmp == item) && (tmp->next != NULL)) { // s'il est au milieu, on supprime l'élément
 		previous->next = item->next;
 		list->size--;
 		free(item);

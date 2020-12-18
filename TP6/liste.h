@@ -18,20 +18,20 @@ typedef struct LinkedList {
 	int size;
 	SingleLinkedListElem *tail;
 } LinkedList;
-// Cr�e une liste cha�n�e unilat�re vide et renvoie un pointeur sur celle-ci
+// Crée une liste chaînée unilatère vide et renvoie un pointeur sur celle-ci
 LinkedList *NewLinkedList();
 
-// Cr�e un nouveau maillon qui contient une nouvelle personne et renvoie un pointeur sur ce maillon
+// Crée un nouveau maillon qui contient une nouvelle personne et renvoie un pointeur sur ce maillon
 SingleLinkedListElem  *NewLinkedListElement(Enregistrement pers);
 
-// Renvoie un pointeur sur le maillon qui se trouve en i�me position � partir de 1
+// Renvoie un pointeur sur le maillon qui se trouve en ième position à partir de 1
 SingleLinkedListElem *GetElementAt(LinkedList *liste, int i);
 
-// Ajoute une nouvelle personne dans la liste cha�n�e en i�me position
-// Cette fonction fait appel � la fonction NewLinkedListElement(Enregistrement pers) pour cr�er un maillon
+// Ajoute une nouvelle personne dans la liste chaînée en ième position
+// Cette fonction fait appel � la fonction NewLinkedListElement(Enregistrement pers) pour créer un maillon
 
 int InsertElementAt(LinkedList *liste, int i, Enregistrement pers);
 
-// Suppression et destruction d'un �l�ment de liste chain�e
+// Suppression et destruction d'un élément de liste chainée
 int DeleteLinkedListElem(LinkedList *list, SingleLinkedListElem *Elem);
 

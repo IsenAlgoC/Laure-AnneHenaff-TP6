@@ -3,12 +3,12 @@
 #include "liste.h"
 
 
-// #define VERSION 3.0
-// #define SQUELET
+//#define VERSION 3.0
+//#define SQUELET
 
 
-#define IMPL_TAB  // si d�fini, on compile pour une impl�mentation tableau du r�pertoire
-//#define IMPL_LIST // si d�fini, on compile pour un impl�mentation Liste Cha�n�e du r�pertoire
+#define IMPL_TAB  // si défini, on compile pour une implémentation tableau du répertoire
+//#define IMPL_LIST // si défini, on compile pour un implémentation Liste Chaînée du répertoire
 
 #ifdef IMPL_LIST
 #undef IMPL_TAB
@@ -28,7 +28,7 @@ MAX_SAISIE > MAX_TEL */
 
 
 /**********************************************************************/
-/*** D�clarations des types                                         ***/
+/*** Déclarations des types                                         ***/
 /***                                                                ***/
 /**********************************************************************/
 
@@ -51,7 +51,7 @@ typedef struct rept
 	bool est_trie;
 } Repertoire;
 
-// initialise le r�pertoire pass� en param�tre et fait appel � charger() pour charger le fichier de contacts
+// initialise le répertoire passé en paramètre et fait appel à charger() pour charger le fichier de contacts
 int init_rep(Repertoire *rep);
 
 // lit les lignes dans le fichier de contacts et les analyse avec la fonction lire_champ_suivant()
@@ -62,37 +62,37 @@ void afficher_menu_principal();
 
 void option_ajouter(Repertoire *rep); // Traitement de l'option ajout d'un contact depuis le menu principal
 
-// Ajout d'un contact dans le r�pertoire stock� en m�moire
+// Ajout d'un contact dans le répertoire stocké en mémoire
 int ajouter_un_contact_dans_rep(Repertoire *rep, Enregistrement enr); 
 
-// Suppression d'un contact, utilis� notamment par traiter_recherche() afin de supprimer un contact recherch� et trouv�
+// Suppression d'un contact, utilisé notamment par traiter_recherche() afin de supprimer un contact recherché et trouvé
 void supprimer_un_contact_dans_rep(Repertoire *rep, int indice); 
 
 
-// Suppression d'un contact pour impl�mentation avec une liste cha�n�e
+// Suppression d'un contact pour implémentation avec une liste chaînée
 int supprimer_un_contact_dans_rep_liste(Repertoire *rep, SingleLinkedListElem *elem);
 
-void trier(Repertoire *rep); // tri du r�pertoire en m�moire
+void trier(Repertoire *rep); // tri du répertoire en mémoire
 
-int saisie_chaine(unsigned char c[], int max);  // entree d'une chaine de caract�res quelconque au clavier, un nom par exemple
-int saisie_enreg(Enregistrement *enr); // fait appel � saisie_chaine pour l'entree d'un nouveau contact
+int saisie_chaine(unsigned char c[], int max);  // entree d'une chaine de caractères quelconque au clavier, un nom par exemple
+int saisie_enreg(Enregistrement *enr); // fait appel à saisie_chaine pour l'entree d'un nouveau contact
 void affichage_enreg(Enregistrement enr); // affiche un seul enregistrement sur une ligne
 void affichage_enreg_frmt(Enregistrement enr); // affiche un seul enregistrement avec des largeurs de colonnes fixes
-void affichage_repertoire(Repertoire *rep); // affichage de tout le r�pertoire en paginant les lignes � la fa�on de la commande 'MORE'
-bool est_sup(Enregistrement enr1, Enregistrement enr2); // test si un contact se trouve apr�s dans l'ordre alphab�tique par rapport � un autre contact
-void trier(Repertoire *rep);  // tri des contacts du r�pertoire en m�moire
+void affichage_repertoire(Repertoire *rep); // affichage de tout le répertoire en paginant les lignes à la façon de la commande 'MORE'
+bool est_sup(Enregistrement enr1, Enregistrement enr2); // test si un contact se trouve après dans l'ordre alphabétique par rapport à un autre contact
+void trier(Repertoire *rep);  // tri des contacts du répertoire en mémoire
 
-void compact(char *s); // suppression de tous les carat�res non num�riques dans une chaine (0..9) afin de faciliter la recherche par no de tel par ex.
-int lire_champ_suivant(char *ligne, int *idx, char *champ, int taille_champ, char separateur); // analyse d'une ligne lue dans le fichier et stock�e dans le buffer 'ligne' 
+void compact(char *s); // suppression de tous les caratères non numériques dans une chaine (0..9) afin de faciliter la recherche par no de tel par ex.
+int lire_champ_suivant(char *ligne, int *idx, char *champ, int taille_champ, char separateur); // analyse d'une ligne lue dans le fichier et stockée dans le buffer 'ligne' 
 
 void option_rechercher(Repertoire *rep); //traitement de l'option de recherche du menu principal
 void afficher_menu_recherche();  //affiche un menu afin de proposer une recherche par nom ou par no tel ou, d'abandonner la recherche
-int rechercher_nom(Repertoire *rep, char nom[], int ind); // recherche l'existance d'un contact et renvoie l'indice de sa position si trouv� ou -1 sinon
-int rechercher_tel(Repertoire *rep, char tel[], int ind); // recherche l'existance d'un contact par no tel et renvoie l'indice de sa position si trouv� ou -1 sinon
-bool traiter_recherche(Repertoire *rep, int pos); // menu qui propose de supprimer le contact trouv�, de poursuivre la recherche ou de s'arreter 
+int rechercher_nom(Repertoire *rep, char nom[], int ind); // recherche l'existance d'un contact et renvoie l'indice de sa position si trouvé ou -1 sinon
+int rechercher_tel(Repertoire *rep, char tel[], int ind); // recherche l'existance d'un contact par no tel et renvoie l'indice de sa position si trouvé ou -1 sinon
+bool traiter_recherche(Repertoire *rep, int pos); // menu qui propose de supprimer le contact trouvé, de poursuivre la recherche ou de s'arreter 
 
-int saisir_chemin(char *message, char *buffer); // demande de saisie au clavier d'un chemin pour un fichier de sauvegarde, fait appel � saisie_chaine()
-int sauvegarder(Repertoire *rep, char nom_fichier[]); // sauvegarde tout le r�pertoire en m�moire vers un fichier en rempla�ant l'ancien fichier
+int saisir_chemin(char *message, char *buffer); // demande de saisie au clavier d'un chemin pour un fichier de sauvegarde, fait appel à saisie_chaine()
+int sauvegarder(Repertoire *rep, char nom_fichier[]); // sauvegarde tout le répertoire en mémoire vers un fichier en remplaçant l'ancien fichier
 
 
 

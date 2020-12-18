@@ -1,5 +1,5 @@
 /**********************************************************************/
-/*****                    R�pertoire t�l�phonique                   ***/
+/*****                    Répertoire téléphonique                   ***/
 /**********************************************************************/
 /*                                                                    */
 /*       rep.c                                                        */
@@ -8,13 +8,13 @@
 /*       SQUELET                                                   */
 /*                                                                    */
 /**********************************************************************/
-/* REMARQUE: le fichier de donn�es est au format suivant :            */
+/* REMARQUE: le fichier de données est au format suivant :            */
 /*      nom;prenom;no_de_telephone1                                   */
 /*      nom2;prenom2;no_de_telephone2                                 */
 /*      ...                                                           */
 /* soit un enregistrement par ligne de 3 champs separ�s par ';'        */
 /* Si on utilise un autre fichier de donnees que rep.txt, il faut     */
-/* passer son nom en param�tre � l'appel du programme                 */
+/* passer son nom en paramètre à l'appel du programme                 */
 /**********************************************************************/
 
 #include <stdio.h>   /* pour les entrées-sorties */
@@ -28,7 +28,7 @@
 #include "rep.h"
 #include "errno.h"
 
-/* flag de modification du répertoire : indique si le tableau de contacts �t� modifi�         */
+/* flag de modification du répertoire : indique si le tableau de contacts été modifié         */
 /* Permet notamment de décider s'il faut sauvegarder le répertoire dans un fichier             */
 bool modif = false;
 
@@ -37,12 +37,12 @@ char nom_fichier[MAX_NOM_FICHIER];
 
 /* divers messages à l'intention de l'utilisateur  */
 
-/* \x82 permet de forcer l'encodage du caractère '�' à la valeur hexa 0x82 quand c'est n�cessaire */
-/* et non � celle utilis�e pour l'encodage du fichier source  .c par visual studio */
-/* c'est la valeur utilis�e par le  Western European (DOS) - Codepage 850 utilis� dans la console DOS */
+/* \x82 permet de forcer l'encodage du caractère '�' à la valeur hexa 0x82 quand c'est nécessaire */
+/* et non à celle utilisée pour l'encodage du fichier source  .c par visual studio */
+/* c'est la valeur utilisée par le  Western European (DOS) - Codepage 850 utilisé dans la console DOS */
 
-char mess1[] = "\nn'existe pas dans le r�pertoire.\n";
-char mess2[] = "\nPlus d'autre %s dans le r�pertoire\n";
+char mess1[] = "\nn'existe pas dans le répertoire.\n";
+char mess2[] = "\nPlus d'autre %s dans le répertoire\n";
 
 
 /*****************************************************************************/
@@ -66,7 +66,7 @@ void main(int argc, char *argv[])
 	{
 		strcpy_s(nom_fichier, _countof(nom_fichier), (char *)argv[1]);	/* nom du fichier utilisateur */
 	}
-	/* intialise le nombre d'éléments � zéro, alloue la mémoire du répertoire, 
+	/* intialise le nombre d'éléments à zéro, alloue la mémoire du répertoire, 
 	charge le fichier et le trie */
 	if (init_rep(&repertoire) <0) return;
 
@@ -123,18 +123,18 @@ void main(int argc, char *argv[])
 
 
 /********************************************************************************/
-/* initialisation d'un r�pertoire                                               */
-/* prend en param�tre un pointeur vers le r�pertoire � initialiser              */
-/* intialise le nombre d'�l�ments � z�ro, charge le fichier et le trie          */
+/* initialisation d'un répertoire                                               */
+/* prend en paramètre un pointeur vers le répertoire à initialiser              */
+/* intialise le nombre d'élèments à zéro, charge le fichier et le trie          */
 /********************************************************************************/
 
 int init_rep(Repertoire *rep)
 {
-	/* fonction compl�te : ne pas modifier  */
+	/* fonction complète : ne pas modifier  */
 	int errno;
 	void * tmpPtr;
 	rep->nb_elts = 0;
-	rep->est_trie = true; /* un r�pertoire vide est tri� :-) */
+	rep->est_trie = true; /* un répertoire vide est trié :-) */
 #ifdef IMPL_TAB
 						  // code pour tableau
 
@@ -164,40 +164,40 @@ int init_rep(Repertoire *rep)
 } /* fin init_rep */
 
   /**************************************************************************/
-  /*  Lecture d'une cha�ne de caract�res depuis le clavier.                 */
-  /*  Elle est stock�e dans le tableau de char pass� en param�tre           */
-  /*   La longueur max � lire est donn�e en second param�tre                */
-  /*   Elle renvoie la longueur de la chaine et une longueur n�gative s'il  */
-  /*   y a eu un probl�me                                                   */
+  /*  Lecture d'une chaîne de caractères depuis le clavier.                 */
+  /*  Elle est stockée dans le tableau de char passé en paramètre           */
+  /*   La longueur max à lire est donnée en second paramètre                */
+  /*   Elle renvoie la longueur de la chaine et une longueur négative s'il  */
+  /*   y a eu un problème                                                   */
   /**************************************************************************/
 int saisie_chaine(unsigned char c[], int max)
 {
-	/* fonction compl�te : ne pas modifier */
+	/* fonction complète : ne pas modifier */
 
-	/* longueur de la cha�ne c */
+	/* longueur de la chaîne c */
 	int l;
 
 	/* saisie en rangeant dans tableau c */
-	if (fgets(c, max, stdin) == NULL)          /* lecture des caract�res sur entr�e standard= clavier */
+	if (fgets(c, max, stdin) == NULL)          /* lecture des caractères sur entrée standard= clavier */
 		return -1;	
 						   /* s'il y a une erreur, on renvoie -1                  */
 	
 	l = strlen(c);							   /* calcul de la longueur de la chaine */
 
 	if (c[l - 1] == '\n')					   /* suppression du retour chariot            */
-	{									       /* en fin de cha�ne s'il est pr�sent        */
-		c[l - 1] = '\0';                       /* �criture d'un caract�re de fin de chaine */
-		l--;                                   /* � la place                               */
+	{									       /* en fin de chaîne s'il est présent        */
+		c[l - 1] = '\0';                       /* écriture d'un caractère de fin de chaine */
+		l--;                                   /* à la place                               */
 	}
 	return l;								   /* on retourne la longueur de */
 } /* fin saisie_chaine */
 
   /**************************************************************************/
-  /* entr�e au clavier d'un enregistrement (contact)                        */
-  /* l'�l�ment saisi est stock� dans l'enregistrement point� par le         */
+  /* entrée au clavier d'un enregistrement (contact)                        */
+  /* l'élément saisi est stocké dans l'enregistrement pointé par le         */
   /* parametre enr                                                          */
-  /* la fonction renvoie OK si l'�l�ment est correctement saisie et         */
-  /* ERROR s'il y a eu un probl�me...                                       */
+  /* la fonction renvoie OK si l'élément est correctement saisie et         */
+  /* ERROR s'il y a eu un problème...                                       */
   /**************************************************************************/
 int saisie_enreg(Enregistrement *enr)
 {
@@ -241,7 +241,7 @@ int saisie_enreg(Enregistrement *enr)
 	/* on copie dans le champ prenom... */
 	strncpy_s(enr->prenom, _countof(enr->prenom) - 1, tmp, _TRUNCATE);
 
-	/* Entr�e clavier du num�ro de t�l�phone */
+	/* Entrée clavier du numéro de téléphone */
 	printf("T�l�phone :");
 	if ((l = saisie_chaine(tmp, MAX_SAISIE)) < 0)
 		return ERROR;
@@ -265,24 +265,24 @@ int saisie_enreg(Enregistrement *enr)
 
 
   /********************************************************************************/
-  /*  Affichage pagin� du r�pertoire par fa�on commande DOS 'more'                */
+  /*  Affichage paginé du répertoire par façon commande DOS 'more'                */
   /********************************************************************************/
 void affichage_repertoire(Repertoire *rep)
 {
 	int idx = 0;							/* Index sur enregistrement courant */
-	int cpt = LIGNES_PAR_PAGE;				/* Compteur de ligne affich�es */
+	int cpt = LIGNES_PAR_PAGE;				/* Compteur de ligne affichées */
 	char key = 0;							/* Controle de l'affichage */
 
-	trier(rep);								/* trie du r�pertoire avant affichage */
+	trier(rep);								/* trie du répertoire avant affichage */
 #ifdef IMPL_LIST
-	// on place un pointeur sur la t�te de liste,
-	// elle est peut-�tre vide
+	// on place un pointeur sur la tête de liste,
+	// elle est peut-être vide
 	SingleLinkedListElem *currentElement = rep->liste->head;
 #endif
 	// tant qu'il y a un �l�ment
 	while ((idx < rep->nb_elts) && (key != 'X'))
 	{
-		if (cpt > 0)						/* S'il reste des lignes � afficher */
+		if (cpt > 0)						/* S'il reste des lignes à afficher */
 		{								/* dans la page */
 #ifdef IMPL_TAB
 			affichage_enreg_frmt(rep->tab[idx]);	/* Affichage enrg courant */
@@ -298,7 +298,7 @@ void affichage_repertoire(Repertoire *rep)
 			cpt--;							/* Une ligne de moins a afficher */
 		}
 		else
-		{	/* si page compl�tement affich�e, on attend la suite */
+		{	/* si page complétement affichée, on attend la suite */
 			printf("\n\n_____________________________ entr�e/espace/x ___ :\n");
 
 			do
@@ -313,7 +313,7 @@ void affichage_repertoire(Repertoire *rep)
 
 
   /**********************************************************************/
-  /* Recherche par no de t�l�phone avec compactage du no                */
+  /* Recherche par no de téléphone avec compactage du no                */
   /**********************************************************************/
 int rechercher_tel(Repertoire *rep, char tel[], int ind)
 {
@@ -324,12 +324,12 @@ int rechercher_tel(Repertoire *rep, char tel[], int ind)
 	char tmp_tel2[MAX_TEL];
 	bool trouve = false;
 
-	ind_fin = rep->nb_elts - 1; // indice de fin � ne pas d�passer
+	ind_fin = rep->nb_elts - 1; // indice de fin à ne pas dépasser
 	strncpy_s(tmp_tel, _countof(tmp_tel) , tel, _TRUNCATE);
 	compact(tmp_tel); // nettoyage du num�ro
 
 #ifdef IMPL_LIST
-					  // on se place sur l'�l�ment en i�me position s'il existe
+					  // on se place sur l'élément en ième position s'il existe
 	SingleLinkedListElem *currentElement = GetElementAt(rep->liste, i);
 	while ((currentElement != NULL) && (!trouve)) {
 		strncpy_s(tmp_tel2, _countof(tmp_tel2) , currentElement->pers.tel,_TRUNCATE);
@@ -337,7 +337,7 @@ int rechercher_tel(Repertoire *rep, char tel[], int ind)
 		if (strcmp(tmp_tel, tmp_tel2) == 0)
 			trouve = true;
 		else {
-			// si pas trouv�, on passe au suivant
+			// si pas trouvé, on passe au suivant
 			currentElement = currentElement->next;
 			i++;
 		}

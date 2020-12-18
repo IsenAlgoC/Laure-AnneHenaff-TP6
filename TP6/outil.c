@@ -6,13 +6,14 @@
 #include <locale.h>
 #include <curses.h>
 #include "rep.h"
-
+#include "errno.h"
 
 #define VERSION 3.0
 #define SQUELET
+
 /**************************************************************************/
 /* Compléter votre nom ici                                                */
-/*   Nom : Hénaff                        Prénom : Laure-Anne                              */
+/*   Nom : Hénaff                        Prénom : Laure-Anne              */
 /**************************************************************************/
 
 extern bool modif;
@@ -25,7 +26,6 @@ extern bool modif;
 int ajouter_un_contact_dans_rep(Repertoire *rep, Enregistrement enr)
 {
 #ifdef IMPL_TAB
-	// compléter code ici pour tableau
 	int idx;
 
 	if (rep->nb_elts < MAX_ENREG)
@@ -75,10 +75,10 @@ int ajouter_un_contact_dans_rep(Repertoire *rep, Enregistrement enr)
   /* supprime du répertoire l'enregistrement dont l'indice est donné en */
   /*   paramètre       et place modif = true                            */
   /**********************************************************************/
+
 #ifdef IMPL_TAB
 void supprimer_un_contact_dans_rep(Repertoire *rep, int indice) {
 
-	// compl�ter code ici pour tableau
 	if (rep->nb_elts >= 1)		/* s'il y a au moins un element ds le tableau */
 	{						/* et que l'indice pointe a l'interieur */
 		for (int i=indice; i<rep->nb_elts-1; i++) { //suppression de l'élément à l'indice indice
@@ -119,15 +119,9 @@ void supprimer_un_contact_dans_rep(Repertoire *rep, int indice) {
   /**********************************************************************/
 void affichage_enreg(Enregistrement enr)
 {
-	printf("\n| %s",enr.nom);
-	for (int i=strlen(enr.nom); i<MAX_NOM;i++) {  
-		printf(" "); //pour aligner tous les mots
-	}
-	printf("| %s",enr.prenom);
-	for(int j=strlen(enr.nom); j<MAX_NOM; j++) {
-		printf(" ");
-	}
-	printf("| %s",enr.tel);
+	printf("\n%s",enr.nom);
+	printf(" %s",enr.prenom);
+	printf(" %s",enr.tel);
 	return;
 
 } /* fin affichage_enreg */
@@ -139,7 +133,16 @@ void affichage_enreg(Enregistrement enr)
   
 void affichage_enreg_frmt(Enregistrement enr)
 {
-	///////////
+	printf("\n| %s",enr.nom);
+	for (int i=strlen(enr.nom); i<MAX_NOM;i++) {  //pour aligner tous les mots
+		printf(" "); 
+	}
+	printf("| %s",enr.prenom);
+	for(int j=strlen(enr.nom); j<MAX_NOM; j++) {
+		printf(" ");
+	}
+	printf("| %s",enr.tel);
+	return;
 
 } /* fin affichage_enreg */
 
@@ -150,31 +153,18 @@ void affichage_enreg_frmt(Enregistrement enr)
   /**********************************************************************/
 bool est_sup(Enregistrement enr1, Enregistrement enr2)
 {
-	char tmp1[MAX_NOM];                                             // On copie les noms et les prenoms dans des variables temporaires et on les passe tous en majuscule!
-	strncpy_s(tmp1, _countof(tmp1), enr2.nom, _TRUNCATE);
-	_strupr_s(tmp1, strlen(tmp1) + 1);                   
-	char tmp2[MAX_NOM];                                             
-	strncpy_s(tmp2, _countof(tmp2), enr1.nom, _TRUNCATE);
-	_strupr_s(tmp2, strlen(tmp2) + 1);
-	char tmp3[MAX_NOM];                                             
-	strncpy_s(tmp3, _countof(tmp3), enr2.prenom, _TRUNCATE);
-	_strupr_s(tmp3, strlen(tmp3) + 1);
-	char tmp4[MAX_NOM];                                            
-	strncpy_s(tmp4, _countof(tmp4), enr1.prenom, _TRUNCATE);
-	_strupr_s(tmp4, strlen(tmp4) + 1);
 
-
-	if (strcmp((tmp1), (tmp2)) < 0) { //si tmp1 est avant tmp2 alors les noms sont classés dans l'ordre alphabétiques
+	if (strcmp((enr1.nom), (enr2.nom)) < 0) { //si tmp1 est avant tmp2 alors les noms sont classés dans l'ordre alphabétiques
 		return (true);
 	}
-	if (strcmp((tmp2),(tmp1)) < 0) {
+	if (strcmp((enr1.nom),(enr2.nom)) > 0) {
 		return(false);
 	}
 									//si les noms sont identiques, on classe les prénoms par ordres alphabétiques
-	if(strcmp((tmp3),(tmp4)) < 0) {  
+	if(strcmp((enr1.prenom),(enr2.prenom)) < 0) {  
 		return(true);
 	}
-	if (strcmp((tmp4),(tmp3)) < 0) {
+	if (strcmp((enr1.prenom),(enr2.prenom)) > 0) {
 		return(false);
 	}
  	return(false);
@@ -236,10 +226,10 @@ int rechercher_nom(Repertoire *rep, char nom[], int ind)
 #ifdef IMPL_TAB
 	
 	ind_fin = rep->nb_elts;
-	strncpy_s(tmp_nom, _countof(tmp_nom), nom, _TRUNCATE);
+	strncpy_s(tmp_nom, _countof(tmp_nom), nom);
 	_strupr_s(tmp_nom, strlen(tmp_nom) + 1); 
 	while (trouve= false && i<ind_fin) {
-		strncpy_s(tmp_nom2, _countof(tmp_nom2), rep->tab[i].nom, _TRUNCATE);
+		strncpy_s(tmp_nom2, _countof(tmp_nom2), rep->tab[i].nom);
 		_strupr_s(tmp_nom2, strlen(tmp_nom2) + 1); 
 
 		if (strcmp((tmp_nom),(tmp_nom2)) == 0) {
@@ -251,8 +241,22 @@ int rechercher_nom(Repertoire *rep, char nom[], int ind)
 	}
 
 #else
-#ifdef IMPL_LIST
-							// ajouter code ici pour Liste
+#ifdef IMPL_LIST  //similaire à la partie tableau
+
+	ind_fin = rep->nb_elts;  
+	strncpy_s(tmp_nom, _countof(tmp_nom), nom);
+	_strupr_s(tmp_nom, strlen(tmp_nom) + 1); 
+	while (trouve= false && i<ind_fin) {
+		strncpy_s(tmp_nom2, _countof(tmp_nom2),GetElementAt(rep->liste, i)->pers.nom);
+		_strupr_s(tmp_nom2, strlen(tmp_nom2) + 1); 
+
+		if (strcmp((tmp_nom),(tmp_nom2)) == 0) {
+			return(trouve = true);
+		}
+		else {
+			i++;
+		}
+	}
 	
 #endif
 #endif
@@ -306,7 +310,19 @@ int sauvegarder(Repertoire *rep, char nom_fichier[])
 	
 #else
 #ifdef IMPL_LIST
-	// ajouter code ici pour Liste
+	
+	if (fopen_s(&fic_rep, nom_fichier, "w")!=0 || fic_rep==NULL) {
+		return(ERROR);
+	}
+	for (int i = 0; i<rep->nb_elts; i++) {
+		printf(fic_rep,"%s%c",GetElementAt(rep->liste, i)->pers.nom,SEPARATEUR);
+		printf(fic_rep,"%s%c",GetElementAt(rep->liste, i)->pers.prenom,SEPARATEUR);
+		printf(fic_rep,"%s%c",GetElementAt(rep->liste, i)->pers.tel,SEPARATEUR);
+
+	if (feof(fic_rep)) {
+		fclose(fic_rep);
+	}
+
 #endif
 #endif
 
@@ -362,13 +378,21 @@ int charger(Repertoire *rep, char nom_fichier[]) ;
 				}
 #else
 #ifdef IMPL_LIST
-														// ajouter code implemention liste
+
+				Enregistrement enr;
+				if (lire_champ_suivant(buffer, &idx, enr.nom, MAX_NOM, SEPARATEUR) == OK)
+				{
+					idx++;							/* on saute le separateur */
+					if (lire_champ_suivant(buffer, &idx, enr.prenom, MAX_NOM, SEPARATEUR) == OK)
+					{
+						idx++;
+						if (lire_champ_suivant(buffer, &idx, enr.tel, MAX_TEL, SEPARATEUR) == OK)
+							num_rec++;		/* element à priori correct, on le comptabilise */
+					}
+				}
+
 #endif
 #endif
-
-
-
-
 			}
 
 		}
